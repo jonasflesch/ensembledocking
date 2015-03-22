@@ -18,10 +18,10 @@ public class CommandLineCaller {
 
 	public void call(String... commands) throws IOException, InterruptedException {
 
-		LOGGER.info("Command: " + commands);
+		LOGGER.info("Command: " + Arrays.toString(commands));
 
 		ProcessBuilder builder = new ProcessBuilder(commands);
-		//builder.redirectErrorStream(true);
+
 		Process process = builder.start();
 
 		process.waitFor();

@@ -12,5 +12,5 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix="app.prepare")
 @Getter @Setter
 public class PrepareSettings {
-    private String directory;
+	private String directory;
 }
