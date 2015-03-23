@@ -14,9 +14,8 @@ import java.io.IOException;
 /**
  * Created by jonasflesch on 3/22/15.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
-public class MGLToolsCallerTest {
+
+public class MGLToolsCallerTest extends AbstractTest {
 
 	@Autowired
 	private MGLToolsCaller mglToolsCaller;
@@ -40,6 +39,13 @@ public class MGLToolsCallerTest {
 		mglToolsCaller.prepareGrid("/home/jonasflesch/bio/work/ind.pdbqt", "/home/jonasflesch/bio/work/hsg1.pdbqt");
 
 		assertTrue("Gpf file should be created", new File("/home/jonasflesch/bio/work/hsg1.gpf").exists());
+	}
+
+	@Test
+	public void prepareDockingParameter() throws IOException, InterruptedException {
+		mglToolsCaller.prepareDockingParameter("/home/jonasflesch/bio/work/ind.pdbqt", "/home/jonasflesch/bio/work/hsg1.pdbqt");
+
+		assertTrue("Dpf file should be created", new File("/home/jonasflesch/bio/work/ind.dpf").exists());
 	}
 
 }
