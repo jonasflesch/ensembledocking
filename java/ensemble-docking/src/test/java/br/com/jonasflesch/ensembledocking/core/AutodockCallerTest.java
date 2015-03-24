@@ -18,9 +18,11 @@ public class AutodockCallerTest extends AbstractTest {
 
 	@Test
 	public void autodock() throws IOException, InterruptedException {
-		autodockCaller.autodock("/home/jonasflesch/bio/work/ind.dpf");
+		copyFile("ind.dpf");
 
-		assertTrue("Dlg file should be created", new File("/home/jonasflesch/bio/work/ind.dlg").exists());
+		autodockCaller.autodock(directory.getPath() + File.separator + "ind.dpf");
+
+		assertTrue("Dlg file should be created", new File(directory.getPath() + File.separator + "ind.dlg").exists());
 	}
 
 }

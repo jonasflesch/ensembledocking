@@ -15,6 +15,6 @@ public class AutogridCaller {
 	private CommandLineCaller commandLineCaller;
 
 	public void autogrid(final String gpfFile) throws IOException, InterruptedException {
-		commandLineCaller.call(gpfFile.substring(0, gpfFile.lastIndexOf('/')), false, "autogrid4", "-p", gpfFile);
+		commandLineCaller.call(gpfFile.substring(0, gpfFile.lastIndexOf('/')), true, "autogrid4", "-p", gpfFile);
 	}
 }
