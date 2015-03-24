@@ -18,6 +18,18 @@ public class AutodockCallerTest extends AbstractTest {
 
 	@Test
 	public void autodock() throws IOException, InterruptedException {
+		copyFile("hsg1.A.map");
+		copyFile("hsg1.C.map");
+		copyFile("hsg1.d.map");
+		copyFile("hsg1.e.map");
+		copyFile("hsg1.HD.map");
+		copyFile("hsg1.maps.fld");
+		copyFile("hsg1.maps.xyz");
+		copyFile("hsg1.N.map");
+		copyFile("hsg1.NA.map");
+		copyFile("hsg1.OA.map");
+		copyFile("ind.pdbqt");
+
 		copyFile("ind.dpf");
 
 		autodockCaller.autodock(directory.getPath() + File.separator + "ind.dpf");
