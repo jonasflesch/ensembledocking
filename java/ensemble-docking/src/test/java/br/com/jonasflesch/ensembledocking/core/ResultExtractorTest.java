@@ -18,17 +18,21 @@ public class ResultExtractorTest extends AbstractTest {
 
 	@Test
 	public void convertDlgToPdbqt() throws IOException, InterruptedException {
-		resultExtractor.convertDlgToPdbqt("/home/jonasflesch/bio/work/ind.dlg");
+		copyFile("ind.dlg");
 
-		assertTrue("Pdbqt file should be created", new File("/home/jonasflesch/bio/work/ind_docked.pdbqt").exists());
+		resultExtractor.convertDlgToPdbqt(directory.getPath() + File.separator + "ind.dlg");
+
+		assertTrue("Pdbqt file should be created", new File(directory.getPath() + File.separator + "ind_docked.pdbqt").exists());
 	}
 
 	@Test
 	public void convertPdbqtToPdb() throws IOException, InterruptedException {
-		resultExtractor.convertPdbqtToPdb("/home/jonasflesch/bio/work/ind_docked.pdbqt");
+		copyFile("ind_docked.pdbqt");
 
-		assertTrue("Pdb file should be created", new File("/home/jonasflesch/bio/work/ind_docked.pdb").exists());
-		assertTrue("Pdb file should bot be empty", new File("/home/jonasflesch/bio/work/ind_docked.pdb").length() > 0);
+		resultExtractor.convertPdbqtToPdb(directory.getPath() + File.separator + "ind_docked.pdbqt");
+
+		assertTrue("Pdb file should be created", new File(directory.getPath() + File.separator + "ind_docked.pdb").exists());
+		assertTrue("Pdb file should bot be empty", new File(directory.getPath() + File.separator + "ind_docked.pdb").length() > 0);
 	}
 
 }
