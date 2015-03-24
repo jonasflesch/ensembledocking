@@ -18,7 +18,7 @@ public class AutodockCaller {
 	private CommandLineCaller commandLineCaller;
 
 	public void autodock(final String autodockParameterFile) throws IOException, InterruptedException {
-		commandLineCaller.callWithDirectory(autodockParameterFile.substring(0, autodockParameterFile.lastIndexOf('/')), "autodock4", "-p", autodockParameterFile, "-l", "autodock.log");
+		commandLineCaller.call(autodockParameterFile.substring(0, autodockParameterFile.lastIndexOf('/')), false, "autodock4", "-p", autodockParameterFile, "-l", "autodock.log");
 	}
 
 }

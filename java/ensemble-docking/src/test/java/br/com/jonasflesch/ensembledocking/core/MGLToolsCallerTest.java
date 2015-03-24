@@ -2,6 +2,8 @@ package br.com.jonasflesch.ensembledocking.core;
 
 import br.com.jonasflesch.ensembledocking.Application;
 import static org.junit.Assert.assertTrue;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,9 @@ public class MGLToolsCallerTest extends AbstractTest {
 
 	@Test
 	public void prepareLigand() throws IOException, InterruptedException {
-		mglToolsCaller.prepareLigand("/home/jonasflesch/bio/work/ind.pdb");
+		copyFile("ind.pdb");
+
+		mglToolsCaller.prepareLigand(directory.getPath() + "/ind.pdb");
 
 		assertTrue("File pdbtqt should be created", new File("/home/jonasflesch/bio/work/ind.pdbqt").exists());
 	}

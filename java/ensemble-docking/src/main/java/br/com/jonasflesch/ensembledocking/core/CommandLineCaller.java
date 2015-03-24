@@ -16,10 +16,10 @@ public class CommandLineCaller {
 	private static final Logger LOGGER = Logger.getLogger(CommandLineCaller.class);
 
 	public String call(String... commands) throws IOException, InterruptedException {
-		return callWithDirectory(null, commands);
+		return call(null, false, commands);
 	}
 
-	public String callWithDirectory(String directory, String... commands) throws IOException, InterruptedException {
+	public String call(String directory, boolean syncOutput, String... commands) throws IOException, InterruptedException {
 
 		LOGGER.info("Command: " + Arrays.toString(commands));
 
@@ -33,17 +33,32 @@ public class CommandLineCaller {
 		final StringWriter writerInfo = new StringWriter();
 		final StringWriter writerError = new StringWriter();
 
-		new Thread(new Runnable() {
-			public void run() {
-				try {
-					IOUtils.copy(process.getInputStream(), writerInfo);
-					IOUtils.copy(process.getErrorStream(), writerError);
-				} catch (IOException exception){
-					LOGGER.error("Erro ao copiar processo", exception);
-				}
+		if(syncOutput){
+			IOUtils.copy(process.getInputStream(), writerInfo);
+			IOUtils.copy(process.getErrorStream(), writerError);
+		} else {
+			new Thread(new Runnable() {
+				public void run() {
+					try {
+						IOUtils.copy(process.getInputStream(), writerInfo);
+					} catch (IOException exception){
+						LOGGER.error("Erro ao copiar processo", exception);
+					}
 
-			}
-		}).start();
+				}
+			}).start();
+			new Thread(new Runnable() {
+				public void run() {
+					try {
+						IOUtils.copy(process.getErrorStream(), writerError);
+					} catch (IOException exception){
+						LOGGER.error("Erro ao copiar processo", exception);
+					}
+
+				}
+			}).start();
+
+		}
 
 		int returnCode = process.waitFor();
 

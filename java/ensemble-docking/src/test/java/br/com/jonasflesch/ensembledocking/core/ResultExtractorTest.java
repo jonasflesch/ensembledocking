@@ -28,6 +28,7 @@ public class ResultExtractorTest extends AbstractTest {
 		resultExtractor.convertPdbqtToPdb("/home/jonasflesch/bio/work/ind_docked.pdbqt");
 
 		assertTrue("Pdb file should be created", new File("/home/jonasflesch/bio/work/ind_docked.pdb").exists());
+		assertTrue("Pdb file should bot be empty", new File("/home/jonasflesch/bio/work/ind_docked.pdb").length() > 0);
 	}
 
 }
