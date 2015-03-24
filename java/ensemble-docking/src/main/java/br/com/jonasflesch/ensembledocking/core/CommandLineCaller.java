@@ -15,11 +15,11 @@ public class CommandLineCaller {
 
 	private static final Logger LOGGER = Logger.getLogger(CommandLineCaller.class);
 
-	public void call(String... commands) throws IOException, InterruptedException {
-		callWithDirectory(null, commands);
+	public String call(String... commands) throws IOException, InterruptedException {
+		return callWithDirectory(null, commands);
 	}
 
-	public void callWithDirectory(String directory, String... commands) throws IOException, InterruptedException {
+	public String callWithDirectory(String directory, String... commands) throws IOException, InterruptedException {
 
 		LOGGER.info("Command: " + Arrays.toString(commands));
 
@@ -50,9 +50,10 @@ public class CommandLineCaller {
 		LOGGER.info(writerInfo.toString());
 		LOGGER.error(writerError.toString());
 		if(returnCode > 0){
-			throw new RuntimeException("Ocorreu um erro ao chamar o" + commands[0]);
+			throw new RuntimeException("Ocorreu um erro ao chamar " + commands[0]);
 		}
 
+		return writerInfo.toString();
 	}
 
 }
