@@ -27,7 +27,7 @@ public class ResultExtractorTest extends AbstractTest {
 	public void convertPdbqtToPdb() throws IOException, InterruptedException {
 		resultExtractor.convertPdbqtToPdb("/home/jonasflesch/bio/work/ind_docked.pdbqt");
 
-		assertTrue("Pdbqt file should be created", new File("/home/jonasflesch/bio/work/ind_docked.pdb").exists());
+		assertTrue("Pdb file should be created", new File("/home/jonasflesch/bio/work/ind_docked.pdb").exists());
 	}
 
 }
