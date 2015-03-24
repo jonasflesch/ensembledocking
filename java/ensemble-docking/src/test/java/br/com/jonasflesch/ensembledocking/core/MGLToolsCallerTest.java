@@ -26,30 +26,38 @@ public class MGLToolsCallerTest extends AbstractTest {
 	public void prepareLigand() throws IOException, InterruptedException {
 		copyFile("ind.pdb");
 
-		mglToolsCaller.prepareLigand(directory.getPath() + "/ind.pdb");
+		mglToolsCaller.prepareLigand(directory.getPath() + File.separator + "ind.pdb");
 
-		assertTrue("File pdbtqt should be created", new File("/home/jonasflesch/bio/work/ind.pdbqt").exists());
+		assertTrue("File pdbtqt should be created", new File(directory.getPath() + File.separator + "ind.pdbqt").exists());
 	}
 
 	@Test
 	public void prepareReceptor() throws IOException, InterruptedException {
-		mglToolsCaller.prepareReceptor("/home/jonasflesch/bio/work/hsg1.pdb");
+		copyFile("hsg1.pdb");
 
-		assertTrue("File pdbtqt should be created", new File("/home/jonasflesch/bio/work/hsg1.pdbqt").exists());
+		mglToolsCaller.prepareReceptor(directory.getPath() + File.separator + "hsg1.pdb");
+
+		assertTrue("File pdbtqt should be created", new File(directory.getPath() + File.separator + "hsg1.pdbqt").exists());
 	}
 
 	@Test
 	public void prepareGrid() throws IOException, InterruptedException {
-		mglToolsCaller.prepareGrid("/home/jonasflesch/bio/work/ind.pdbqt", "/home/jonasflesch/bio/work/hsg1.pdbqt");
+		copyFile("ind.pdbqt");
+		copyFile("hsg1.pdbqt");
 
-		assertTrue("Gpf file should be created", new File("/home/jonasflesch/bio/work/hsg1.gpf").exists());
+		mglToolsCaller.prepareGrid(directory.getPath() + File.separator + "ind.pdbqt", directory.getPath() + File.separator + "hsg1.pdbqt");
+
+		assertTrue("Gpf file should be created", new File(directory.getPath() + File.separator + "hsg1.gpf").exists());
 	}
 
 	@Test
 	public void prepareDockingParameter() throws IOException, InterruptedException {
-		mglToolsCaller.prepareDockingParameter("/home/jonasflesch/bio/work/ind.pdbqt", "/home/jonasflesch/bio/work/hsg1.pdbqt");
+		copyFile("ind.pdbqt");
+		copyFile("hsg1.pdbqt");
 
-		assertTrue("Dpf file should be created", new File("/home/jonasflesch/bio/work/ind.dpf").exists());
+		mglToolsCaller.prepareDockingParameter(directory.getPath() + File.separator + "ind.pdbqt", directory.getPath() + File.separator + "hsg1.pdbqt");
+
+		assertTrue("Dpf file should be created", new File(directory.getPath() + File.separator + "ind.dpf").exists());
 	}
 
 }
