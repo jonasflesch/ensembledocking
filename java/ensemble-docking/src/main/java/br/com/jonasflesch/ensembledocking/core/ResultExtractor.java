@@ -22,14 +22,19 @@ public class ResultExtractor {
 	@Inject
 	private CommandLineCaller commandLineCaller;
 
-	public void convertDlgToPdbqt(final String dlgFile) throws IOException, InterruptedException {
+	public String convertDlgToPdbqt(final String dlgFile) throws IOException, InterruptedException {
 		String output = commandLineCaller.call("/bin/sh", "-c", "grep '^DOCKED' " + dlgFile + " | cut -c9- ");
-		Files.write(Paths.get(dlgFile.substring(0, dlgFile.lastIndexOf('.'))+ "_docked.pdbqt"), output.getBytes());
+		String pdbqtOutputFile = dlgFile.substring(0, dlgFile.lastIndexOf('.'))+ "_docked.pdbqt";
+		Files.write(Paths.get(pdbqtOutputFile), output.getBytes());
+		return pdbqtOutputFile;
 	}
 
-	public void convertPdbqtToPdb(final String pdbqtFile) throws IOException, InterruptedException {
+	public String convertPdbqtToPdb(final String pdbqtFile) throws IOException, InterruptedException {
 		String output = commandLineCaller.call(null, true, "cut", "-c-66", pdbqtFile);
-		Files.write(Paths.get(pdbqtFile.substring(0, pdbqtFile.lastIndexOf('.'))+ ".pdb"), output.getBytes(Charset.forName("UTF-8")));
+
+		String pdbFile = pdbqtFile.substring(0, pdbqtFile.lastIndexOf('.'))+ ".pdb";
+		Files.write(Paths.get(pdbFile), output.getBytes(Charset.forName("UTF-8")));
+		return pdbFile;
 	}
 
 }

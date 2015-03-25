@@ -6,7 +6,7 @@ import javax.inject.Inject;
 import java.io.IOException;
 
 /**
- * Chama o aplicativo Pymol
+ * Chama o aplicativo Pymol para gerar imagem das docagens
  *
  * Created by jonasflesch on 3/23/15.
  */

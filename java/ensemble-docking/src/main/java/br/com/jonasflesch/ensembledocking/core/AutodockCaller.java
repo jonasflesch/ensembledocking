@@ -17,8 +17,9 @@ public class AutodockCaller {
 	@Inject
 	private CommandLineCaller commandLineCaller;
 
-	public void autodock(final String autodockParameterFile) throws IOException, InterruptedException {
-		commandLineCaller.call(autodockParameterFile.substring(0, autodockParameterFile.lastIndexOf('/')), false, "autodock4", "-p", autodockParameterFile);
+	public String autodock(final String dpfFile) throws IOException, InterruptedException {
+		commandLineCaller.call(dpfFile.substring(0, dpfFile.lastIndexOf('/')), false, "autodock4", "-p", dpfFile);
+		return dpfFile.substring(0, dpfFile.lastIndexOf('.'))+".dlg";
 	}
 
 }

@@ -6,6 +6,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
+ * Configurćão alteraćão
+ *
  * Created by jonasflesch on 3/22/15.
  */
 @Component
@@ -13,6 +15,6 @@ import org.springframework.stereotype.Component;
 @Getter @Setter
 public class CoreSettings {
 
-    private String mglToolsDirectory;
+	private String mglToolsDirectory;
 
 }

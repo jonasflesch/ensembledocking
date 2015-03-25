@@ -62,8 +62,13 @@ public class CommandLineCaller {
 
 		int returnCode = process.waitFor();
 
-		LOGGER.info(writerInfo.toString());
-		LOGGER.error(writerError.toString());
+		if(!writerInfo.toString().isEmpty()){
+			LOGGER.info(writerInfo.toString());
+		}
+		if(!writerError.toString().isEmpty()){
+			LOGGER.error(writerError.toString());
+		}
+
 		if(returnCode > 0){
 			throw new RuntimeException("Ocorreu um erro ao chamar " + commands[0]);
 		}

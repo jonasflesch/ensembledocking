@@ -19,20 +19,28 @@ public class MGLToolsCaller {
 	@Inject
 	private CommandLineCaller commandLineCaller;
 
-	public void prepareLigand(final String pdbFileLigand) throws IOException, InterruptedException {
-		commandLineCaller.call(pythonsh(), prepareLigand4(), " -l " + pdbFileLigand, " -o " + pdbFileLigand.substring(0, pdbFileLigand.lastIndexOf('.')) + ".pdbqt");
+	public String prepareLigand(final String pdbFileLigand) throws IOException, InterruptedException {
+		String pdbqtFilePath = pdbFileLigand.substring(0, pdbFileLigand.lastIndexOf('.')) + ".pdbqt";
+		commandLineCaller.call(pythonsh(), prepareLigand4(), " -l " + pdbFileLigand, " -o " + pdbqtFilePath);
+		return pdbqtFilePath;
 	}
 
-	public void prepareReceptor(final String pdbFileReceptor) throws IOException, InterruptedException {
-		commandLineCaller.call(pythonsh(), prepareReceptor4(), "-r " + pdbFileReceptor, "-A hydrogens", "-o " + pdbFileReceptor.substring(0, pdbFileReceptor.lastIndexOf('.')) + ".pdbqt");
+	public String prepareReceptor(final String pdbFileReceptor) throws IOException, InterruptedException {
+		String pdbqtFilePath = pdbFileReceptor.substring(0, pdbFileReceptor.lastIndexOf('.')) + ".pdbqt";
+		commandLineCaller.call(pythonsh(), prepareReceptor4(), "-r " + pdbFileReceptor, "-A hydrogens", "-o " + pdbqtFilePath);
+		return pdbqtFilePath;
 	}
 
-	public void prepareGrid(final String pdbqtFileLigand, final String pdbqtFileReceptor) throws IOException, InterruptedException {
-		commandLineCaller.call(pythonsh(), prepareGpf4(), "-l " + pdbqtFileLigand, "-r " + pdbqtFileReceptor, "-o " + pdbqtFileReceptor.substring(0, pdbqtFileReceptor.lastIndexOf('.')) + ".gpf", "–p npts='60,60,66'");
+	public String prepareGrid(final String pdbqtFileLigand, final String pdbqtFileReceptor) throws IOException, InterruptedException {
+		String gpfFilePath = pdbqtFileReceptor.substring(0, pdbqtFileReceptor.lastIndexOf('.')) + ".gpf";
+		commandLineCaller.call(pythonsh(), prepareGpf4(), "-l " + pdbqtFileLigand, "-r " + pdbqtFileReceptor, "-o " + gpfFilePath, "–p npts='60,60,66'");
+		return gpfFilePath;
 	}
 
-	public void prepareDockingParameter(final String pdbqtFileLigand, final String pdbqtFileReceptor) throws IOException, InterruptedException {
-		commandLineCaller.call(pythonsh(), prepareDpf4(), "-l " + pdbqtFileLigand, "-r " + pdbqtFileReceptor, "-o " + pdbqtFileLigand.substring(0, pdbqtFileLigand.lastIndexOf('.')) + ".dpf", "–p ga_num_evals=250000");
+	public String prepareDockingParameter(final String pdbqtFileLigand, final String pdbqtFileReceptor) throws IOException, InterruptedException {
+		String dpfFilePath = pdbqtFileLigand.substring(0, pdbqtFileLigand.lastIndexOf('.')) + ".dpf";
+		commandLineCaller.call(pythonsh(), prepareDpf4(), "-l " + pdbqtFileLigand, "-r " + pdbqtFileReceptor, "-o " + dpfFilePath, "–p ga_num_evals=250000");
+		return dpfFilePath;
 	}
 
 	private String pythonsh() {
