@@ -33,6 +33,9 @@ public class DockService {
 	@Inject
 	private PymolCaller pymolCaller;
 
+	@Inject
+	private DockSettings dockSettings;
+
 	public String dock(final File pdbFileLigand, final File pdbFileReceptor){
 		try {
 			String pdbqtFileLigand = mglToolsCaller.prepareLigand(pdbFileLigand.getPath());
@@ -47,7 +50,7 @@ public class DockService {
 
 			String resultDirectory = dockedPdbFile.substring(0, dockedPdbFile.lastIndexOf(File.separator));
 
-			String pmlFile = pymolParameterGenerator.generatePml(resultDirectory, resultDirectory + File.separator + "docked.png", dockedPdbFile, pdbFileReceptor.getPath());
+			String pmlFile = pymolParameterGenerator.generatePml(resultDirectory, dockSettings.getResultsDirectory() + File.separator + "docked.png", dockedPdbFile, pdbFileReceptor.getPath());
 
 			pymolCaller.pymol(pmlFile);
 

@@ -4,6 +4,7 @@ package br.com.jonasflesch.ensembledocking.view;
  * Created by jonasflesch on 3/24/15.
  */
 
+import br.com.jonasflesch.ensembledocking.core.DockSettings;
 import br.com.jonasflesch.ensembledocking.docking.DockService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -24,6 +25,9 @@ public class FileUploadController {
 
 	@Inject
 	private DockService dockService;
+
+	@Inject
+	private DockSettings dockSettings;
 
 	@RequestMapping(value="/upload", method= RequestMethod.GET)
 	public @ResponseBody String provideUploadInfo() {
@@ -48,7 +52,7 @@ public class FileUploadController {
 				//TODO refatorar para não enviar path completo
 				String pngFile = dockService.dock(outputLigand, outputReceptor);
 
-				return "<img src=\"http://localhost:8080/imagemdock/" + pngFile.replace(File.separator, "mussum") + "\"></img>";
+				return "<img src=\"http://localhost:8080/imagemdock/" + pngFile + "\"></img>";
 			} catch (Exception e) {
 				return "You failed to upload => " + e.getMessage();
 			}
@@ -59,7 +63,7 @@ public class FileUploadController {
 
 	@RequestMapping(value = "/imagedock/{imagePath}", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
 	public @ResponseBody byte[] image(@PathVariable String imagePath) throws IOException {
-		File file = new File(imagePath.replace("mussum", File.separator)+ ".png");
+		File file = new File(dockSettings + File.separator + imagePath + ".png");
 		return IOUtils.toByteArray(new FileInputStream(file));
 	}
 
