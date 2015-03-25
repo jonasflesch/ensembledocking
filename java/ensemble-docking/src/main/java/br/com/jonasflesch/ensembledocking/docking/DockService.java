@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.io.File;
+import java.util.Random;
 
 /**
  * Created by jonasflesch on 3/24/15.
@@ -36,6 +37,8 @@ public class DockService {
 	@Inject
 	private DockSettings dockSettings;
 
+	private static Random random = new Random();
+
 	public String dock(final File pdbFileLigand, final File pdbFileReceptor){
 		try {
 			String pdbqtFileLigand = mglToolsCaller.prepareLigand(pdbFileLigand.getPath());
@@ -49,13 +52,14 @@ public class DockService {
 			String dockedPdbFile = resultExtractor.convertPdbqtToPdb(dockedPdbqtFile);
 
 			String resultDirectory = dockedPdbFile.substring(0, dockedPdbFile.lastIndexOf(File.separator));
+			String pngFileName = random.nextInt() + ".png";
 
-			String pmlFile = pymolParameterGenerator.generatePml(resultDirectory, dockSettings.getResultsDirectory() + File.separator + "docked.png", dockedPdbFile, pdbFileReceptor.getPath());
+
+			String pmlFile = pymolParameterGenerator.generatePml(resultDirectory, dockSettings.getResultsDirectory() + File.separator + pngFileName, dockedPdbFile, pdbFileReceptor.getPath());
 
 			pymolCaller.pymol(pmlFile);
 
-			String pngFile = resultDirectory + File.separator + "docked.png";
-			return pngFile;
+			return pngFileName;
 		} catch (Exception e){
 			LOGGER.error("Erro ao docar", e);
 			return null;

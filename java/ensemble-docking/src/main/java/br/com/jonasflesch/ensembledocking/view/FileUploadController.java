@@ -52,7 +52,7 @@ public class FileUploadController {
 				//TODO refatorar para não enviar path completo
 				String pngFile = dockService.dock(outputLigand, outputReceptor);
 
-				return "<img src=\"http://localhost:8080/imagemdock/" + pngFile + "\"></img>";
+				return "<img src=\"http://localhost:8080/imagedock/" + pngFile + "\"></img>";
 			} catch (Exception e) {
 				return "You failed to upload => " + e.getMessage();
 			}
@@ -63,7 +63,7 @@ public class FileUploadController {
 
 	@RequestMapping(value = "/imagedock/{imagePath}", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
 	public @ResponseBody byte[] image(@PathVariable String imagePath) throws IOException {
-		File file = new File(dockSettings + File.separator + imagePath + ".png");
+		File file = new File(dockSettings.getResultsDirectory() + File.separator + imagePath + ".png");
 		return IOUtils.toByteArray(new FileInputStream(file));
 	}
 
