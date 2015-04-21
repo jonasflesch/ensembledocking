@@ -68,4 +68,18 @@ public class GromacsCallerTest  extends AbstractTest {
 		assertTrue("New tpr file should be created", new File(tprOutputFile).exists());
 	}
 
+	@Test
+	public void mdrun() throws IOException, InterruptedException {
+		copyFile("free_em.tpr");
+
+		String tprFilePath = directory.getPath() + File.separator + "free_em.tpr";
+		String trrFilePath = directory.getPath() + File.separator + "free_em.trr";
+		String groFilePath = directory.getPath() + File.separator + "free_em.gro";
+
+		gromacsCaller.mdrun(tprFilePath, trrFilePath, groFilePath);
+
+		assertTrue("New trr file should be created", new File(trrFilePath).exists());
+		assertTrue("New gro file should be created", new File(groFilePath).exists());
+	}
+
 }

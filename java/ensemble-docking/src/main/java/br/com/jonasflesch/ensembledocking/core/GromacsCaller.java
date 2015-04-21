@@ -36,4 +36,8 @@ public class GromacsCaller {
 		commandLineCaller.call(mdpFile.substring(0, mdpFile.lastIndexOf('/')), true, "grompp", "-v", "-f", mdpFile, "-c", groFile, "-o", tprFileOutput, "-p", topologyFile);
 	}
 
+	public void mdrun(final String tprFile, final String trrFile, final String groFile) throws IOException, InterruptedException {
+		commandLineCaller.call(tprFile.substring(0, tprFile.lastIndexOf('/')), true, "mdrun", "-v", "-s", tprFile, "-o", trrFile, "-c", groFile, "-g", "emlog");
+	}
+
 }
