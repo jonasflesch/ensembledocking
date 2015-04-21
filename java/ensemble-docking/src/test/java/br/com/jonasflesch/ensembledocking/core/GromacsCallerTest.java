@@ -28,4 +28,15 @@ public class GromacsCallerTest  extends AbstractTest {
 		assertTrue("Topology file should be created", new File(directory.getPath() + File.separator + "free.top").exists());
 	}
 
+	@Test
+	public void editconf() throws IOException, InterruptedException {
+		copyFile("free.gro");
+
+		String inputFilePath = directory.getPath() + File.separator + "free.gro";
+
+		gromacsCaller.editconf(inputFilePath);
+
+		assertTrue("New gro file should be created", new File(directory.getPath() + File.separator + "free_edt.gro").exists());
+	}
+
 }

@@ -20,4 +20,10 @@ public class GromacsCaller {
 		commandLineCaller.call(pdbFile.substring(0, pdbFile.lastIndexOf('/')), true, "pdb2gmx", "-f", pdbFile, "-o", fileName + ".gro", "-p", fileName + ".top", "-ff", "gromos53a6", "-water", "spc");
 	}
 
+	public void editconf(final String groFile) throws IOException, InterruptedException {
+		String fileName = groFile.substring(0, groFile.lastIndexOf('.'));
+
+		commandLineCaller.call(fileName.substring(0, fileName.lastIndexOf('/')), true, "editconf", "-bt", "cubic", "-f", groFile, "-o", fileName + "_edt.gro", "-c", "-d", "1.0");
+	}
+
 }
