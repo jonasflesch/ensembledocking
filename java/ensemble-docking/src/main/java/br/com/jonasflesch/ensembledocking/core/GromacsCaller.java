@@ -32,4 +32,8 @@ public class GromacsCaller {
 		commandLineCaller.call(fileName.substring(0, fileName.lastIndexOf('/')), true, "genbox", "-cp", groFile, "-cs", "spc216.gro", "-o", fileName + "_box.gro", "-p", topologyFile);
 	}
 
+	public void grompp(final String mdpFile, final String groFile, final String tprFileOutput, final String topologyFile) throws IOException, InterruptedException {
+		commandLineCaller.call(mdpFile.substring(0, mdpFile.lastIndexOf('/')), true, "grompp", "-v", "-f", mdpFile, "-c", groFile, "-o", tprFileOutput, "-p", topologyFile);
+	}
+
 }

@@ -52,4 +52,20 @@ public class GromacsCallerTest  extends AbstractTest {
 		assertTrue("New gro box file should be created", new File(directory.getPath() + File.separator + "free_box.gro").exists());
 	}
 
+	@Test
+	public void grompp() throws IOException, InterruptedException {
+		copyFile("free_box.gro");
+		copyFile("free_box.top");
+		copyFile("em.mdp");
+
+		String groBoxFilePath = directory.getPath() + File.separator + "free_box.gro";
+		String topFilePath = directory.getPath() + File.separator + "free_box.top";
+		String mdpFilePath = directory.getPath() + File.separator + "em.mdp";
+		String tprOutputFile = directory.getPath() + File.separator + "free_em.tpr";
+
+		gromacsCaller.grompp(mdpFilePath, groBoxFilePath, tprOutputFile, topFilePath);
+
+		assertTrue("New tpr file should be created", new File(tprOutputFile).exists());
+	}
+
 }
