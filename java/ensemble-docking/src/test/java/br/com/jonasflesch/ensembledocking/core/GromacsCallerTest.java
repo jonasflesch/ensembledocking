@@ -39,4 +39,17 @@ public class GromacsCallerTest  extends AbstractTest {
 		assertTrue("New gro file should be created", new File(directory.getPath() + File.separator + "free_edt.gro").exists());
 	}
 
+	@Test
+	public void genbox() throws IOException, InterruptedException {
+		copyFile("free_edt.gro");
+		copyFile("free.top");
+
+		String groFilePath = directory.getPath() + File.separator + "free_edt.gro";
+		String topFilePath = directory.getPath() + File.separator + "free.top";
+
+		gromacsCaller.genbox(groFilePath, topFilePath);
+
+		assertTrue("New gro box file should be created", new File(directory.getPath() + File.separator + "free_box.gro").exists());
+	}
+
 }

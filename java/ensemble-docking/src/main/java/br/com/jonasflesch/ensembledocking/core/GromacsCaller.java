@@ -26,4 +26,10 @@ public class GromacsCaller {
 		commandLineCaller.call(fileName.substring(0, fileName.lastIndexOf('/')), true, "editconf", "-bt", "cubic", "-f", groFile, "-o", fileName + "_edt.gro", "-c", "-d", "1.0");
 	}
 
+	public void genbox(final String groFile, final String topologyFile) throws IOException, InterruptedException {
+		String fileName = topologyFile.substring(0, topologyFile.lastIndexOf('.'));
+
+		commandLineCaller.call(fileName.substring(0, fileName.lastIndexOf('/')), true, "genbox", "-cp", groFile, "-cs", "spc216.gro", "-o", fileName + "_box.gro", "-p", topologyFile);
+	}
+
 }
