@@ -36,12 +36,16 @@ public class GromacsCaller {
 		commandLineCaller.call(mdpFile.substring(0, mdpFile.lastIndexOf('/')), true, "grompp", "-v", "-f", mdpFile, "-c", groFile, "-o", tprFileOutput, "-p", topologyFile);
 	}
 
-	public void mdrun(final String tprFile, final String trrFile, final String groFile) throws IOException, InterruptedException {
+	public void mdrunMinimizationEnergy(final String tprFile, final String trrFile, final String groFile) throws IOException, InterruptedException {
 		commandLineCaller.call(tprFile.substring(0, tprFile.lastIndexOf('/')), true, "mdrun", "-v", "-s", tprFile, "-o", trrFile, "-c", groFile, "-g", "emlog");
 	}
 
 	public void gromppMdWithPositionRestraint(final String mdpFile, final String tprFileOutput, final String groFile, final String topFile) throws IOException, InterruptedException {
 		commandLineCaller.call(mdpFile.substring(0, mdpFile.lastIndexOf('/')), true, "grompp", "-f", mdpFile, "-o", tprFileOutput, "-c", groFile, "-r", groFile, "-p", topFile, "-maxwarn", "3");
+	}
+
+	public void mdrunMdWithPositionRestraint(final String tprFile, final String edrFile, final String trrFile, final String groFile) throws IOException, InterruptedException {
+		commandLineCaller.call(tprFile.substring(0, tprFile.lastIndexOf('/')), true, "mdrun", "-v", "-s", tprFile, "-e", edrFile, "-o", trrFile, "-c", groFile, "-g", "prlog");
 	}
 
 }

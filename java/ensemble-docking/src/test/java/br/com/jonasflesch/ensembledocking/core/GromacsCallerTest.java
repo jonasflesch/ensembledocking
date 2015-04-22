@@ -69,14 +69,14 @@ public class GromacsCallerTest  extends AbstractTest {
 	}
 
 	@Test
-	public void mdrun() throws IOException, InterruptedException {
+	public void mdrunMinimizationEnergy() throws IOException, InterruptedException {
 		copyFile("free_em.tpr");
 
 		String tprFilePath = directory.getPath() + File.separator + "free_em.tpr";
 		String trrFilePath = directory.getPath() + File.separator + "free_em.trr";
 		String groFilePath = directory.getPath() + File.separator + "free_em.gro";
 
-		gromacsCaller.mdrun(tprFilePath, trrFilePath, groFilePath);
+		gromacsCaller.mdrunMinimizationEnergy(tprFilePath, trrFilePath, groFilePath);
 
 		assertTrue("New trr file should be created", new File(trrFilePath).exists());
 		assertTrue("New gro file should be created", new File(groFilePath).exists());
@@ -97,6 +97,22 @@ public class GromacsCallerTest  extends AbstractTest {
 		gromacsCaller.gromppMdWithPositionRestraint(mdpFilePath, tprFilePath, groEmFilePath, topBoxFilePath);
 
 		assertTrue("New tpr file should be created", new File(tprFilePath).exists());
+	}
+
+	@Test
+	public void mdrunMdWithPositionRestraint() throws IOException, InterruptedException {
+		copyFile("free_pr.tpr");
+
+		String tprFilePath = directory.getPath() + File.separator + "free_pr.tpr";
+		String edrFilePath = directory.getPath() + File.separator + "free_pr.edr";
+		String trrFilePath = directory.getPath() + File.separator + "free_pr.trr";
+		String groFilePath = directory.getPath() + File.separator + "free_pr.gro";
+
+		gromacsCaller.mdrunMdWithPositionRestraint(tprFilePath, edrFilePath, trrFilePath, groFilePath);
+
+		assertTrue("New edr file should be created", new File(edrFilePath).exists());
+		assertTrue("New trr file should be created", new File(trrFilePath).exists());
+		assertTrue("New gro file should be created", new File(groFilePath).exists());
 	}
 
 }
