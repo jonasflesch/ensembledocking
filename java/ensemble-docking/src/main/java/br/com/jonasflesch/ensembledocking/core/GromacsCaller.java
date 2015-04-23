@@ -48,4 +48,12 @@ public class GromacsCaller {
 		commandLineCaller.call(tprFile.substring(0, tprFile.lastIndexOf('/')), true, "mdrun", "-v", "-s", tprFile, "-e", edrFile, "-o", trrFile, "-c", groFile, "-g", "prlog");
 	}
 
+	public void gromppMdWithoutPositionRestraint(final String mdpFile, final String tprFileOutput, final String groFile, final String topFile) throws IOException, InterruptedException {
+		commandLineCaller.call(mdpFile.substring(0, mdpFile.lastIndexOf('/')), true, "grompp", "-f", mdpFile, "-o", tprFileOutput, "-c", groFile, "-p", topFile, "-maxwarn", "1");
+	}
+
+	public void mdrunMdWithoutPositionRestraint(final String tprFile, final String edrFile, final String trrFile, final String groFile) throws IOException, InterruptedException {
+		commandLineCaller.call(tprFile.substring(0, tprFile.lastIndexOf('/')), true, "mdrun", "-v", "-s", tprFile, "-e", edrFile, "-o", trrFile, "-c", groFile, "-g", "prlog");
+	}
+
 }
