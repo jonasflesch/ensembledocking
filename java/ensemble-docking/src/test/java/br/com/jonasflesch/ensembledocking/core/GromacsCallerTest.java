@@ -147,4 +147,18 @@ public class GromacsCallerTest  extends AbstractTest {
 		assertTrue("New gro file should be created", new File(groFilePath).exists());
 	}
 
+	@Test
+	public void trjconv() throws IOException, InterruptedException {
+		copyFile("free_100ps.tpr");
+		copyFile("free_100ps.trr");
+
+		String trrFilePath = directory.getPath() + File.separator + "free_100ps.trr";
+		String tprFilePath = directory.getPath() + File.separator + "free_100ps.tpr";
+		String pdbFilePath = directory.getPath() + File.separator + "free_100ps.pdb";
+
+		gromacsCaller.trjconv(trrFilePath, tprFilePath, pdbFilePath);
+
+		assertTrue("New pdb file should be created", new File(pdbFilePath).exists());
+	}
+
 }

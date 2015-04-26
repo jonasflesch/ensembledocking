@@ -10,6 +10,9 @@ import javax.inject.Inject;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.StringTokenizer;
 
 /**
  * Created by jonasflesch on 4/26/15.
@@ -26,7 +29,7 @@ public class MolecularDynamicsService {
 	@Inject
 	private MdpSerializer mdpSerializer;
 
-	public void molecularDynamics(final File pdbFile) throws IOException, InterruptedException {
+	public String[] molecularDynamics(final File pdbFile) throws IOException, InterruptedException {
 
 		String pdbFilePath = pdbFile.getPath();
 
@@ -88,6 +91,14 @@ public class MolecularDynamicsService {
 		String groFileMdWithoutPositionRestraint = pdbFilePath.substring(0, pdbFilePath.lastIndexOf(File.separator) +1) + "100ps.gro";
 		String edrFileMdWithoutPositionRestraint = pdbFilePath.substring(0, pdbFilePath.lastIndexOf(File.separator) +1) + "100ps.edr";
 		gromacsCaller.mdrunMdWithoutPositionRestraint(tprFileMdWithoutPositionRestraint, edrFileMdWithoutPositionRestraint, trrFileMdWithoutPositionRestraint, groFileMdWithoutPositionRestraint);
+
+		String trajectoryPdfFile = pdbFilePath.substring(0, pdbFilePath.lastIndexOf(File.separator) +1) + "trajectory.pdb";
+
+		gromacsCaller.trjconv(trrFileMdWithoutPositionRestraint, tprFileMdWithoutPositionRestraint, trajectoryPdfFile);
+
+		byte[] trajectoryBytes = Files.readAllBytes(Paths.get(trajectoryPdfFile));
+		String trajectoryString = new String(trajectoryBytes, "UTF-8");
+		return trajectoryString.split("(?<=ENDMDL)");
 	}
 
 }

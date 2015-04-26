@@ -56,4 +56,8 @@ public class GromacsCaller {
 		commandLineCaller.call(tprFile.substring(0, tprFile.lastIndexOf('/')), true, "mdrun", "-v", "-s", tprFile, "-e", edrFile, "-o", trrFile, "-c", groFile, "-g", "prlog");
 	}
 
+	public void trjconv(final String trrFile, final String tprFile, final String pdbFile) throws IOException, InterruptedException {
+		commandLineCaller.call(tprFile.substring(0, tprFile.lastIndexOf('/')), true, "/bin/sh", "-c","echo Protein | trjconv -f " + trrFile + " -s " +tprFile + " -o " + pdbFile);
+	}
+
 }
