@@ -98,7 +98,7 @@ public class MolecularDynamicsService {
 
 		byte[] trajectoryBytes = Files.readAllBytes(Paths.get(trajectoryPdfFile));
 		String trajectoryString = new String(trajectoryBytes, "UTF-8");
-		return trajectoryString.split("(?<=ENDMDL)");
+		return trajectoryString.split("(?<=ENDMDL\n)");
 	}
 
 }

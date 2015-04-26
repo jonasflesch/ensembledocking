@@ -45,8 +45,11 @@ public class DockService {
 
 	public String dock(final File pdbFileLigand, final File pdbFileReceptor){
 		try {
-			molecularDynamicsService.molecularDynamics(pdbFileReceptor);
+			String [] conformations = molecularDynamicsService.molecularDynamics(pdbFileReceptor);
 
+			//for (String conformation: conformations){
+
+			//}
 			String pdbqtFileLigand = mglToolsCaller.prepareLigand(pdbFileLigand.getPath());
 			String pdbqtFileReceptor = mglToolsCaller.prepareReceptor(pdbFileReceptor.getPath());
 			String dpfFile = mglToolsCaller.prepareDockingParameter(pdbqtFileLigand, pdbqtFileReceptor);
