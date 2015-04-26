@@ -26,6 +26,8 @@ public class MdpSerializer {
 					outputStream.write(line.getBytes(Charset.forName("UTF-8")));
 				}
 			}
+			outputStream.flush();
+			outputStream.close();
 		} catch (Exception e){
 			LOGGER.error("Error serializing mdp", e);
 		}

@@ -1,6 +1,7 @@
 package br.com.jonasflesch.ensembledocking.docking;
 
 import br.com.jonasflesch.ensembledocking.core.*;
+import br.com.jonasflesch.ensembledocking.moleculardynamics.MolecularDynamicsService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -37,10 +38,15 @@ public class DockService {
 	@Inject
 	private DockSettings dockSettings;
 
+	@Inject
+	private MolecularDynamicsService molecularDynamicsService;
+
 	private static Random random = new Random();
 
 	public String dock(final File pdbFileLigand, final File pdbFileReceptor){
 		try {
+			molecularDynamicsService.molecularDynamics(pdbFileReceptor);
+
 			String pdbqtFileLigand = mglToolsCaller.prepareLigand(pdbFileLigand.getPath());
 			String pdbqtFileReceptor = mglToolsCaller.prepareReceptor(pdbFileReceptor.getPath());
 			String dpfFile = mglToolsCaller.prepareDockingParameter(pdbqtFileLigand, pdbqtFileReceptor);

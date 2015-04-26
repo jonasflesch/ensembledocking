@@ -4,47 +4,154 @@ package br.com.jonasflesch.ensembledocking.model;
  * Created by jonasflesch on 4/26/15.
  */
 public class Mdp {
-	private String title = "fws";
-	private String cpp = "/usr/bin/cpp";
-	private String constraints = "all-bonds";
-	private String integrator = "md";
-	private Integer tinit = 0;
+	private String title;
+	private String cpp;
+	private String constraints;
+	private String integrator;
+	private Integer tinit;
 	/**ps*/
-	private Double dt =  0.002;
+	private Double dt;
 	/**total 100 ps*/
-	private Integer nsteps = 50000;
-	private Integer nstcomm = 1;
-	private Integer nstxout =  500;
-	private Integer nstvout = 0;
-	private Integer nstfout =  0;
-	private Integer nstlog =  100;
-	private Integer nstenergy = 100;
-	private Integer nstlist = 10;
-	private String ns_type = "grid";
-	private Double rlist = 1.0;
-	private String coulombtype = "PME";
-	private Double rcoulomb =  1.0;
-	private String vdwtype = "Cut-off";
-	private Double rvdw = 1.4;
-	private Double fourierspacing =  0.12;
-	private Integer fourier_nx = 0;
-	private Integer fourier_ny =  0;
-	private Integer fourier_nz =  0;
-	private Integer pme_order =  4;
-	private Double ewald_rtol =  1e-5;
-	private String optimize_fft = "yes";
-	private String Tcoupl = "berendsen";
-	private Double[] tau_t =  {0.1, 0.1};
-	private String[] tc_grps = {"Protein", "SOL"};
-	private Integer[] ref_t = {300, 300};
-	private String Pcoupl = "parrinello-rahman";
-	private String pcoupltype = "isotropic";
-	private Double tau_p =  0.5;
-	private Double compressibility =  4.5e-5;
-	private Double ref_p =  1.0;
-	private String gen_vel = "yes";
-	private Double gen_temp = 300.0;
-	private Integer gen_seed =  173529;
+	private Integer nsteps;
+	private Integer nstcomm;
+	private Integer nstxout;
+	private Integer nstvout;
+	private Integer nstfout;
+	private Integer nstlog;
+	private Integer nstenergy;
+	private Integer nstlist;
+	private String ns_type;
+	private Double rlist;
+	private String coulombtype;
+	private Double rcoulomb;
+	private String vdwtype;
+	private Double rvdw;
+	private Double fourierspacing;
+	private Integer fourier_nx;
+	private Integer fourier_ny;
+	private Integer fourier_nz;
+	private Integer pme_order;
+	private Double ewald_rtol;
+	private String optimize_fft;
+	private String Tcoupl;
+	private Double[] tau_t;
+	private String[] tc_grps;
+	private Integer[] ref_t;
+	private String Pcoupl;
+	private String pcoupltype;
+	private Double tau_p;
+	private Double compressibility;
+	private Double ref_p;
+	private String gen_vel;
+	private Double gen_temp;
+	private Integer gen_seed;
+	private String define;
+	private Integer emtol;
+	private Double emstep;
+
+	public void setTo100ps(){
+		title = "fws";
+		cpp = "/usr/bin/cpp";
+		constraints = "all-bonds";
+		integrator = "md";
+		tinit = 0;
+		dt =  0.002;
+		nsteps = 5000;
+		nstcomm = 1;
+		nstxout =  500;
+		nstvout = 0;
+		nstfout =  0;
+		nstlog =  100;
+		nstenergy = 100;
+		nstlist = 10;
+		ns_type = "grid";
+		rlist = 1.0;
+		coulombtype = "PME";
+		rcoulomb =  1.0;
+		vdwtype = "Cut-off";
+		rvdw = 1.4;
+		fourierspacing =  0.12;
+		fourier_nx = 0;
+		fourier_ny =  0;
+		fourier_nz =  0;
+		pme_order =  4;
+		ewald_rtol =  1e-5;
+		optimize_fft = "yes";
+		Tcoupl = "berendsen";
+		tau_t =  new Double[]{0.1, 0.1};
+		tc_grps = new String[]{"Protein", "SOL"};
+		ref_t = new Integer[]{300, 300};
+		Pcoupl = "parrinello-rahman";
+		pcoupltype = "isotropic";
+		tau_p =  0.5;
+		compressibility =  4.5e-5;
+		ref_p =  1.0;
+		gen_vel = "yes";
+		gen_temp = 300.0;
+		gen_seed =  173529;
+	}
+
+	public void setToEm(){
+		cpp =  "/lib/cpp";
+		define = "-DFLEX_SPC";
+		constraints = "none";
+		integrator = "steep";
+		nsteps = 500;
+		emtol =  2000;
+		emstep =  0.01;
+		nstcomm             =  1;
+		ns_type             =  "grid";
+		rlist               =  1.0;
+		rcoulomb            =  1.0;
+		rvdw                =  1.0;
+		Tcoupl              =  "no";
+		Pcoupl              =  "no";
+		gen_vel             =  "no";
+	}
+
+	public void setToPr(){
+		title = "Yo";
+		cpp                 =  "/lib/cpp";
+		define              =  "-DPOSRES";
+		constraints         =  "all-bonds";
+		integrator          =  "md";
+		dt                  =  0.002;
+		nsteps              =  500;
+		nstcomm             =  1;
+		nstxout             =  250;
+		nstvout             =  1000;
+		nstfout             =  0;
+		nstlog              =  100;
+		nstenergy           =  100;
+		nstlist             =  10;
+		ns_type             =  "grid";
+		rlist               =  1.0;
+		coulombtype        =  "PME";
+		rcoulomb            =  1.0;
+		vdwtype             =  "cut-off";
+		rvdw                =  1.4;
+		fourierspacing        =  0.12;
+		fourier_nx        =  0;
+		fourier_ny        =  0;
+		fourier_nz        =  0;
+		pme_order        =  4;
+		ewald_rtol        =  1e-5;
+		optimize_fft        =  "yes";
+
+		Tcoupl              =  "berendsen";
+		tau_t               =  new Double[]{0.1,0.1};
+		tc_grps             =  new String[]{"Protein", "SOL"};
+		ref_t               =  new Integer[]{100, 100};
+		Pcoupl              =  "parrinello-rahman";
+		pcoupltype          =  "isotropic";
+		tau_p               =  0.5;
+		compressibility     =  4.5e-5;
+		ref_p               =  1.0;
+		gen_vel             =  "yes";
+		gen_temp            =  100.0;
+		gen_seed            =  173529;
+
+	}
 
 	public String getTitle() {
 		return title;
@@ -358,4 +465,27 @@ public class Mdp {
 		this.gen_seed = gen_seed;
 	}
 
+	public String getDefine() {
+		return define;
+	}
+
+	public void setDefine(String define) {
+		this.define = define;
+	}
+
+	public Integer getEmtol() {
+		return emtol;
+	}
+
+	public void setEmtol(Integer emtol) {
+		this.emtol = emtol;
+	}
+
+	public Double getEmstep() {
+		return emstep;
+	}
+
+	public void setEmstep(Double emstep) {
+		this.emstep = emstep;
+	}
 }
