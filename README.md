@@ -10,4 +10,5 @@ A aplicação foi desenvolvida utilizando:
 - Java 1.8
 - Gromacs 4.6.5
 - Autodock 4.2.5.1
+- MGLTools 1.5.6
 - Pymol 1.7
