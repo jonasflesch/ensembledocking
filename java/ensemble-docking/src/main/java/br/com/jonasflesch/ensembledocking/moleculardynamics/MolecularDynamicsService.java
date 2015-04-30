@@ -3,6 +3,7 @@ package br.com.jonasflesch.ensembledocking.moleculardynamics;
 import br.com.jonasflesch.ensembledocking.core.GromacsCaller;
 import br.com.jonasflesch.ensembledocking.core.PdbCutter;
 import br.com.jonasflesch.ensembledocking.model.Mdp;
+import br.com.jonasflesch.ensembledocking.model.MolecularDynamicsResultDto;
 import br.com.jonasflesch.ensembledocking.serialization.MdpSerializer;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,7 @@ public class MolecularDynamicsService {
 	@Inject
 	private MdpSerializer mdpSerializer;
 
-	public String[] molecularDynamics(final File pdbFile) throws IOException, InterruptedException {
+	public MolecularDynamicsResultDto molecularDynamics(final File pdbFile) throws IOException, InterruptedException {
 
 		String pdbFilePath = pdbFile.getPath();
 
@@ -98,7 +99,12 @@ public class MolecularDynamicsService {
 
 		byte[] trajectoryBytes = Files.readAllBytes(Paths.get(trajectoryPdfFile));
 		String trajectoryString = new String(trajectoryBytes, "UTF-8");
-		return trajectoryString.split("(?<=ENDMDL\n)");
+		String[] conformations = trajectoryString.split("(?<=ENDMDL\n)");
+
+		MolecularDynamicsResultDto molecularDynamicsResultDto = new MolecularDynamicsResultDto();
+		molecularDynamicsResultDto.setConformations(conformations);
+		molecularDynamicsResultDto.setSteps(ps100Mdp.getNsteps());
+		return molecularDynamicsResultDto;
 	}
 
 }
