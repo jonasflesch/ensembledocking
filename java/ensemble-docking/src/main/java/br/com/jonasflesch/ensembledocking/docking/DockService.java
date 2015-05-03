@@ -1,6 +1,7 @@
 package br.com.jonasflesch.ensembledocking.docking;
 
 import br.com.jonasflesch.ensembledocking.core.*;
+import br.com.jonasflesch.ensembledocking.model.DockParametersDto;
 import br.com.jonasflesch.ensembledocking.model.DockingResultDto;
 import br.com.jonasflesch.ensembledocking.model.MolecularDynamicsResultDto;
 import br.com.jonasflesch.ensembledocking.moleculardynamics.MolecularDynamicsService;
@@ -58,12 +59,12 @@ public class DockService {
 
 	private static Random random = new Random();
 
-	public DockingResultDto dock(final File pdbFileLigand, final File pdbFileReceptor){
+	public DockingResultDto dock(final DockParametersDto dockParametersDto){
 		try {
-			String resultDirectory = pdbFileLigand.getPath().substring(0, pdbFileLigand.getPath().lastIndexOf(File.separator));
-			MolecularDynamicsResultDto molecularDynamicsResultDto = molecularDynamicsService.molecularDynamics(pdbFileReceptor);
+			String resultDirectory = dockParametersDto.getPdbFileLigand().getPath().substring(0, dockParametersDto.getPdbFileLigand().getPath().lastIndexOf(File.separator));
+			MolecularDynamicsResultDto molecularDynamicsResultDto = molecularDynamicsService.molecularDynamics(dockParametersDto.getPdbFileReceptor(), dockParametersDto);
 
-			String pdbqtFileLigand = mglToolsCaller.prepareLigand(pdbFileLigand.getPath());
+			String pdbqtFileLigand = mglToolsCaller.prepareLigand(dockParametersDto.getPdbFileLigand().getPath());
 			String dockedPdbqtFile = null;
 
 			XYSeries xySeries = new XYSeries("Energia Livre");
@@ -88,12 +89,11 @@ public class DockService {
 				xySeries.add(currentStepTime, freeEnergy);
 			}
 
-
 			String energyOverTimeChartFile = createEnergyOverTimeChart(xySeries, resultDirectory);
 
 			String dockedPdbFile = resultExtractor.convertPdbqtToPdb(dockedPdbqtFile);
 
-			String pngFileName = generateResultImage(pdbFileReceptor, resultDirectory, dockedPdbFile);
+			String pngFileName = generateResultImage(dockParametersDto.getPdbFileReceptor(), resultDirectory, dockedPdbFile);
 
 			DockingResultDto dockingResultDto = new DockingResultDto();
 			dockingResultDto.setBestDockingImage(pngFileName);
@@ -129,9 +129,9 @@ public class DockService {
 
 		// create the chart...
 		final JFreeChart chart = ChartFactory.createXYLineChart(
-				"Line Chart Demo 6",      // chart title
-				"X",                      // x axis label
-				"Y",                      // y axis label
+				"Enegia Livre ao Longo do Tempo",      // chart title
+				"Tempo (picosegundos)",                      // x axis label
+				"Energia Livre",                      // y axis label
 				dataset,                  // data
 				PlotOrientation.VERTICAL,
 				true,                     // include legend

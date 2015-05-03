@@ -6,6 +6,7 @@ package br.com.jonasflesch.ensembledocking.view;
 
 import br.com.jonasflesch.ensembledocking.core.DockSettings;
 import br.com.jonasflesch.ensembledocking.docking.DockService;
+import br.com.jonasflesch.ensembledocking.model.DockParametersDto;
 import br.com.jonasflesch.ensembledocking.model.DockingResultDto;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -38,21 +39,26 @@ public class FileUploadController {
 
 	@RequestMapping(value="/upload", method=RequestMethod.POST)
 	public String handleFileUpload(@RequestParam("fileLigand") MultipartFile fileLigand,
-												 @RequestParam("fileReceptor") MultipartFile fileReceptor,
-												 Model model){
+								   @RequestParam("fileReceptor") MultipartFile fileReceptor,
+								   @RequestParam("molecularDynamicsSteps") Integer molecularDynamicsSteps,
+								   @RequestParam("molecularDynamicsOut") Integer molecularDynamicsOut,
+								   Model model){
 		if (!fileLigand.isEmpty() && !fileReceptor.isEmpty()) {
 			try {
 				Path tempDir = Files.createTempDirectory("dock");
 
-				byte[] bytesLigand = fileLigand.getBytes();
-				File outputLigand = new File(tempDir.toString() + File.separator + fileLigand.getName() + ".pdb");
-				FileUtils.copyInputStreamToFile(new ByteArrayInputStream(bytesLigand), outputLigand);
+				File outputLigand = saveFileToDirectory(fileLigand, tempDir);
 
-				byte[] bytesReceptor = fileReceptor.getBytes();
-				File outputReceptor = new File(tempDir.toString() + File.separator + fileReceptor.getName() + ".pdb");
-				FileUtils.copyInputStreamToFile(new ByteArrayInputStream(bytesReceptor), outputReceptor);
+				File outputReceptor = saveFileToDirectory(fileReceptor, tempDir);
 
-				DockingResultDto dockingResultDto = dockService.dock(outputLigand, outputReceptor);
+				DockParametersDto dockParametersDto = new DockParametersDto();
+				dockParametersDto.setPdbFileLigand(outputLigand);
+				dockParametersDto.setPdbFileReceptor(outputReceptor);
+
+				dockParametersDto.setMolecularDynamicsSteps(molecularDynamicsSteps);
+				dockParametersDto.setMolecularDynamicsOut(molecularDynamicsOut);
+
+				DockingResultDto dockingResultDto = dockService.dock(dockParametersDto);
 
 				model.addAttribute("bestDockingImage", dockingResultDto.getBestDockingImage());
 				model.addAttribute("freeEnergyOverTimeChart", dockingResultDto.getFreeEnergyOverTimeChart());
@@ -64,6 +70,13 @@ public class FileUploadController {
 		} else {
 			return "You failed to upload because the file was empty.";
 		}
+	}
+
+	private File saveFileToDirectory(MultipartFile fileLigand, Path tempDir) throws IOException {
+		byte[] bytesLigand = fileLigand.getBytes();
+		File outputLigand = new File(tempDir.toString() + File.separator + fileLigand.getName() + ".pdb");
+		FileUtils.copyInputStreamToFile(new ByteArrayInputStream(bytesLigand), outputLigand);
+		return outputLigand;
 	}
 
 	@RequestMapping(value = "/image/{imagePath}", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)

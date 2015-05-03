@@ -2,6 +2,7 @@ package br.com.jonasflesch.ensembledocking.moleculardynamics;
 
 import br.com.jonasflesch.ensembledocking.core.GromacsCaller;
 import br.com.jonasflesch.ensembledocking.core.PdbCutter;
+import br.com.jonasflesch.ensembledocking.model.DockParametersDto;
 import br.com.jonasflesch.ensembledocking.model.Mdp;
 import br.com.jonasflesch.ensembledocking.model.MolecularDynamicsResultDto;
 import br.com.jonasflesch.ensembledocking.serialization.MdpSerializer;
@@ -30,7 +31,7 @@ public class MolecularDynamicsService {
 	@Inject
 	private MdpSerializer mdpSerializer;
 
-	public MolecularDynamicsResultDto molecularDynamics(final File pdbFile) throws IOException, InterruptedException {
+	public MolecularDynamicsResultDto molecularDynamics(final File pdbFile, DockParametersDto dockParametersDto) throws IOException, InterruptedException {
 
 		String pdbFilePath = pdbFile.getPath();
 
@@ -82,6 +83,8 @@ public class MolecularDynamicsService {
 
 		Mdp ps100Mdp = new Mdp();
 		ps100Mdp.setTo100ps();
+		ps100Mdp.setNsteps(dockParametersDto.getMolecularDynamicsSteps());
+		ps100Mdp.setNstxout(dockParametersDto.getMolecularDynamicsOut());
 
 		mdpSerializer.serialize(ps100Mdp, new FileOutputStream(ps100MdpPath));
 

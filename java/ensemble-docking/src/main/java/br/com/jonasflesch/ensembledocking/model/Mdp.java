@@ -56,7 +56,7 @@ public class Mdp {
 		integrator = "md";
 		tinit = 0;
 		dt =  0.002;
-		nsteps = 500; //5000
+		nsteps = 5000; //5000
 		nstcomm = 1;
 		nstxout =  50; //500
 		nstvout = 0;
