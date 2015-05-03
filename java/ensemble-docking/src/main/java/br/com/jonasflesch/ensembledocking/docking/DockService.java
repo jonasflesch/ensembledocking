@@ -65,23 +65,24 @@ public class DockService {
 			MolecularDynamicsResultDto molecularDynamicsResultDto = molecularDynamicsService.molecularDynamics(dockParametersDto.getPdbFileReceptor(), dockParametersDto);
 
 			String pdbqtFileLigand = mglToolsCaller.prepareLigand(dockParametersDto.getPdbFileLigand().getPath());
-			String dockedPdbqtFile = null;
+			String dockedLigandPdbqtFile = null;
+			String receptorPdbFile = null;
 
 			XYSeries xySeries = new XYSeries("Energia Livre");
 
 			for (int i = 0; i < molecularDynamicsResultDto.getConformations().length; i++){
 				String conformation = molecularDynamicsResultDto.getConformations()[i];
-				String pdfFileReceptorConformation = resultDirectory + File.separator + random.nextInt() + ".pdb";
-				Files.write(Paths.get(pdfFileReceptorConformation), conformation.getBytes("UTF-8"));
-				String pdbqtFileReceptor = mglToolsCaller.prepareReceptor(pdfFileReceptorConformation);
+				receptorPdbFile = resultDirectory + File.separator + random.nextInt() + ".pdb";
+				Files.write(Paths.get(receptorPdbFile), conformation.getBytes("UTF-8"));
+				String pdbqtFileReceptor = mglToolsCaller.prepareReceptor(receptorPdbFile);
 				String dpfFile = mglToolsCaller.prepareDockingParameter(pdbqtFileLigand, pdbqtFileReceptor);
 				String gpfFile = mglToolsCaller.prepareGrid(pdbqtFileLigand, pdbqtFileReceptor);
 
 				autogridCaller.autogrid(gpfFile);
 				String dlgFile = autodockCaller.autodock(dpfFile);
-				dockedPdbqtFile = resultExtractor.convertDlgToPdbqt(dlgFile);
+				dockedLigandPdbqtFile = resultExtractor.convertDlgToPdbqt(dlgFile);
 
-				Double freeEnergy = freeEnergyFromPdbqt(dockedPdbqtFile);
+				Double freeEnergy = freeEnergyFromPdbqt(dockedLigandPdbqtFile);
 
 				int stepTime = molecularDynamicsResultDto.getSteps()/molecularDynamicsResultDto.getConformations().length;
 				int currentStepTime = stepTime * i;
@@ -91,9 +92,9 @@ public class DockService {
 
 			String energyOverTimeChartFile = createEnergyOverTimeChart(xySeries, resultDirectory);
 
-			String dockedPdbFile = resultExtractor.convertPdbqtToPdb(dockedPdbqtFile);
+			String dockedLigandPdbFile = resultExtractor.convertPdbqtToPdb(dockedLigandPdbqtFile);
 
-			String pngFileName = generateResultImage(dockParametersDto.getPdbFileReceptor(), resultDirectory, dockedPdbFile);
+			String pngFileName = generateResultImage(resultDirectory, receptorPdbFile, dockedLigandPdbFile);
 
 			DockingResultDto dockingResultDto = new DockingResultDto();
 			dockingResultDto.setBestDockingImage(pngFileName);
@@ -164,19 +165,20 @@ public class DockService {
 
 		BufferedImage objBufferedImage=chart.createBufferedImage(800, 600);
 
+		String fileName = random.nextInt() + ".png";
 
-		String outputFilePath = dockSettings.getResultsDirectory() + File.separator + random.nextInt() + ".png";
+		String outputFilePath = dockSettings.getResultsDirectory() + File.separator + fileName;
 		File outputFile = new File(outputFilePath);
 
 		ImageIO.write(objBufferedImage, "png", outputFile);
 
-		return outputFilePath;
+		return fileName;
 	}
 
-	private String generateResultImage(File pdbFileReceptor, String resultDirectory, String dockedPdbFile) throws IOException, InterruptedException {
+	private String generateResultImage(String resultDirectory, String pdbFileReceptor, String pdbFileLigand) throws IOException, InterruptedException {
 		String pngFileName = random.nextInt() + ".png";
 
-		String pmlFile = pymolParameterGenerator.generatePml(resultDirectory, dockSettings.getResultsDirectory() + File.separator + pngFileName, dockedPdbFile, pdbFileReceptor.getPath());
+		String pmlFile = pymolParameterGenerator.generatePml(resultDirectory, dockSettings.getResultsDirectory() + File.separator + pngFileName, pdbFileLigand, pdbFileReceptor);
 
 		pymolCaller.pymol(pmlFile);
 		return pngFileName;

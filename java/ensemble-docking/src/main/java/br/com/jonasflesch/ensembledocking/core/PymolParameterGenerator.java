@@ -14,12 +14,16 @@ import java.io.IOException;
 @Component
 public class PymolParameterGenerator {
 
-	public String generatePml(String directory, String pngFile, String... pdbFiles) throws IOException {
+	public String generatePml(String directory, String pngFile, String pdbFileLigand, String pdbFileReceptor) throws IOException {
 		StringBuffer stringBuffer = new StringBuffer();
-		for(String pdbFile : pdbFiles){
-			stringBuffer.append("load ").append(pdbFile).append('\n');
-		}
-		stringBuffer.append("png ").append(pngFile).append(", dpi=300").append('\n');
+
+		stringBuffer.append("load ").append(pdbFileLigand).append(", ligand\n");
+		stringBuffer.append("load ").append(pdbFileReceptor).append(", receptor\n");
+
+		stringBuffer.append("hide lines\n");
+		stringBuffer.append("show lines, receptor\n");
+		stringBuffer.append("show sticks, ligand\n");
+				stringBuffer.append("png ").append(pngFile).append(", dpi=300").append('\n');
 		stringBuffer.append("log_close\n");
 		stringBuffer.append("quit");
 
