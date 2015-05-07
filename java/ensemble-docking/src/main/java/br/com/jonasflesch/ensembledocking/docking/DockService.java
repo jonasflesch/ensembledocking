@@ -75,7 +75,7 @@ public class DockService {
 				receptorPdbFile = resultDirectory + File.separator + random.nextInt() + ".pdb";
 				Files.write(Paths.get(receptorPdbFile), conformation.getBytes("UTF-8"));
 				String pdbqtFileReceptor = mglToolsCaller.prepareReceptor(receptorPdbFile);
-				String dpfFile = mglToolsCaller.prepareDockingParameter(pdbqtFileLigand, pdbqtFileReceptor, "[38.329,29.977,6.594]");
+				String dpfFile = mglToolsCaller.prepareDockingParameter(pdbqtFileLigand, pdbqtFileReceptor);
 				String gpfFile = mglToolsCaller.prepareGrid(pdbqtFileLigand, pdbqtFileReceptor);
 
 				autogridCaller.autogrid(gpfFile);

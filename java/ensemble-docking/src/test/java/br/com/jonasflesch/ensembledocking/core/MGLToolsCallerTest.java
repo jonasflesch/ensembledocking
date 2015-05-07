@@ -55,7 +55,7 @@ public class MGLToolsCallerTest extends AbstractTest {
 		copyFile("ind.pdbqt");
 		copyFile("hsg1.pdbqt");
 
-		mglToolsCaller.prepareDockingParameter(directory.getPath() + File.separator + "ind.pdbqt", directory.getPath() + File.separator + "hsg1.pdbqt", "[38.329,29.977,6.594]");
+		mglToolsCaller.prepareDockingParameter(directory.getPath() + File.separator + "ind.pdbqt", directory.getPath() + File.separator + "hsg1.pdbqt");
 
 		assertTrue("Dpf file should be created", new File(directory.getPath() + File.separator + "ind.dpf").exists());
 	}
