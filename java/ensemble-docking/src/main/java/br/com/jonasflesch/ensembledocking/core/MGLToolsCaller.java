@@ -37,9 +37,9 @@ public class MGLToolsCaller {
 		return gpfFilePath;
 	}
 
-	public String prepareDockingParameter(final String pdbqtFileLigand, final String pdbqtFileReceptor) throws IOException, InterruptedException {
+	public String prepareDockingParameter(final String pdbqtFileLigand, final String pdbqtFileReceptor, final String center) throws IOException, InterruptedException {
 		String dpfFilePath = pdbqtFileLigand.substring(0, pdbqtFileLigand.lastIndexOf('.')) + ".dpf";
-		commandLineCaller.call(pythonsh(), prepareDpf4(), "-l " + pdbqtFileLigand, "-r " + pdbqtFileReceptor, "-o " + dpfFilePath, "–p ga_num_evals=250000");
+		commandLineCaller.call(pythonsh(), prepareDpf4() + " -v -p ga_num_evals=250000 -p about="+center + " -p ga_run=5 -l " + pdbqtFileLigand + " -r " + pdbqtFileReceptor + " -o " + dpfFilePath);
 		return dpfFilePath;
 	}
 
@@ -60,7 +60,7 @@ public class MGLToolsCaller {
 	}
 
 	private String prepareDpf4() {
-		return coreSettings.getMglToolsDirectory() + "/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_dpf4.py";
+		return coreSettings.getMglToolsDirectory() + "/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_dpf42.py";
 	}
 
 }
