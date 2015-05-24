@@ -1,4 +1,5 @@
 <%@ page pageEncoding="UTF-8" %>
+<%@ taglib prefix = "spring" uri = "http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,9 +31,9 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Página Inicial</a></li>
-                    <li><a href="#about">Sobre Nós</a></li>
-                    <li><a href="#contact">Contato</a></li>
+                    <li class="active"><a href="#"><spring:message code="menu.home" /></a></li>
+                    <li><a href="#about"><spring:message code="menu.aboutus" /></a></li>
+                    <li><a href="#contact"><spring:message code="menu.contact" /></a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -45,45 +46,45 @@
             <!-- Main jumbotron for a primary marketing message or call to action -->
             <div class="jumbotron">
                 <h1>Ensemble Docking</h1>
-                <p>Através desta aplicação é possível realizar Ensemble Docking. Para contribuir, visite nossa página no <a href="https://github.com/jonasflesch/ensembledocking">Github</a></p>
+                <p> <spring:message code="upload.description" /> <a href="https://github.com/jonasflesch/ensembledocking">Github</a></p>
             </div>
 
             <div class="page-header">
-                <h1>Seleção de Arquivos</h1>
+                <h1><spring:message code="upload.file.selection" /></h1>
             </div>
 
             <div class="form-group">
-                <label for="fileLigand">Arquivo PDB Ligante: </label>
+                <label for="fileLigand"><spring:message code="upload.file.ligand" /></label>
                 <input type="file" name="fileLigand" id="fileLigand" >
-                <p class="help-block">Selecione o arquivo PDB na sua máquina.</p>
+                <p class="help-block"><spring:message code="upload.file.select.ligand" /></p>
             </div>
             <div class="form-group">
-                <label for="fileReceptor">Arquivo PDB Receptor: </label>
+                <label for="fileReceptor"><spring:message code="upload.file.receptor" /></label>
                 <input type="file" name="fileReceptor" id="fileReceptor" />
-                <p class="help-block">Selecione o arquivo PDB na sua máquina.</p>
+                <p class="help-block"><spring:message code="upload.file.select.receptor" /></p>
             </div>
 
             <div class="page-header">
-                <h1>Parâmetros</h1>
+                <h1><spring:message code="upload.parameters" /></h1>
             </div>
 
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="molecularDynamicsSteps">Passos da dinâmica molecular</label>
-                        <input type="number" class="form-control" id="molecularDynamicsSteps" name="molecularDynamicsSteps" placeholder="Passos da dinâmica molecular" value="50000">
-                        <p class="help-block">O número de passos a serem executados na dinâmica molecular. Casa passo tem 0.002 picosegundos.</p>
+                        <label for="molecularDynamicsSteps"><spring:message code="upload.moleculardynamics.steps" /></label>
+                        <input type="number" class="form-control" id="molecularDynamicsSteps" name="molecularDynamicsSteps" placeholder="<spring:message code="upload.moleculardynamics.steps" />" value="50000">
+                        <p class="help-block"><spring:message code="upload.moleculardynamics.steps.help" /></p>
                     </div>
                     <div class="form-group">
-                        <label for="molecularDynamicsOut">Output a cada</label>
-                        <input type="number" class="form-control" id="molecularDynamicsOut" name="molecularDynamicsOut" placeholder="Output a cada" value="50">
-                        <p class="help-block">A cada quantos passos deve ser executada uma docagem.</p>
+                        <label for="molecularDynamicsOut"><spring:message code="upload.moleculardynamics.outputeach" /></label>
+                        <input type="number" class="form-control" id="molecularDynamicsOut" name="molecularDynamicsOut" placeholder="<spring:message code="upload.moleculardynamics.outputeach" />" value="50">
+                        <p class="help-block"><spring:message code="upload.moleculardynamics.outputeach.help" /></p>
                     </div>
                 </div>
             </div>
 
             <p>
-                <input type="submit" value="Iniciar Docagem"> Este processo pode levar algumas horas dependendo dos parâmetros
+                <input type="submit" value="<spring:message code="upload.start.docking" />"> <spring:message code="upload.start.docking.description" />
             </p>
 
         </div>

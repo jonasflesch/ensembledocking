@@ -1,4 +1,5 @@
 <%@ page pageEncoding="UTF-8" %>
+<%@ taglib prefix = "spring" uri = "http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,9 +31,9 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Página Inicial</a></li>
-                    <li><a href="#about">Sobre Nós</a></li>
-                    <li><a href="#contact">Contato</a></li>
+                    <li class="active"><a href="#"><spring:message code="menu.home" /></a></li>
+                    <li><a href="#about"><spring:message code="menu.aboutus" /></a></li>
+                    <li><a href="#contact"><spring:message code="menu.contact" /></a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
